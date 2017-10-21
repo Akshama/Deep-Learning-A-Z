@@ -22,14 +22,16 @@ from keras.layers import Dense
 classifier = Sequential()
 
 # Step 1 - Convolution
+#input_shape parameters order in TensorFlow is this, in Theano it would be 3,64,64
 classifier.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'))
 
 # Step 2 - Pooling
+#Size reduced to half+1
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
-# Adding a second convolutional layer
+''' Adding a second convolutional layer
 classifier.add(Conv2D(32, (3, 3), activation = 'relu'))
-classifier.add(MaxPooling2D(pool_size = (2, 2)))
+classifier.add(MaxPooling2D(pool_size = (2, 2)))'''
 
 # Step 3 - Flattening
 classifier.add(Flatten())
@@ -62,8 +64,9 @@ test_set = test_datagen.flow_from_directory('dataset/test_set',
                                             batch_size = 32,
                                             class_mode = 'binary')
 
+#Number of images in training set = steps per epoch, number of images in test set = validation_steps
 classifier.fit_generator(training_set,
                          steps_per_epoch = 8000,
-                         epochs = 25,
+                         epochs = 2,
                          validation_data = test_set,
                          validation_steps = 2000)
